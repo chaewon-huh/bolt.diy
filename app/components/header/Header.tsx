@@ -4,6 +4,7 @@ import { chatStore } from '~/lib/stores/chat';
 import { classNames } from '~/utils/classNames';
 import { HeaderActionButtons } from './HeaderActionButtons.client';
 import { ChatDescription } from '~/lib/persistence/ChatDescription.client';
+import { AuthButton } from './AuthButton.client';
 
 export function Header() {
   const chat = useStore(chatStore);
@@ -30,12 +31,18 @@ export function Header() {
           </span>
           <ClientOnly>
             {() => (
-              <div className="">
+              <div className="flex items-center gap-2">
                 <HeaderActionButtons chatStarted={chat.started} />
+                <AuthButton />
               </div>
             )}
           </ClientOnly>
         </>
+      )}
+      {!chat.started && (
+        <div className="ml-auto">
+          <ClientOnly>{() => <AuthButton />}</ClientOnly>
+        </div>
       )}
     </header>
   );
